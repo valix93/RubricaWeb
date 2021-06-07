@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import it.rdev.rubrica.dto.User;
+import it.rdev.rubrica.model.ContactDao;
+import it.rdev.rubrica.model.entities.Contact;
 
 /**
  * Servlet implementation class LoginServlet
@@ -31,11 +33,14 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		User user = new User()
 				.setPassword(request.getParameter("password"))
 				.setUsername(request.getParameter("username"));
-		
+				
+		List<Contact> contactExist = ContactDao.findByName(user.getUsername());
+		System.out.println(contactExist.get(0).getName());
+		//if (contactExist!=null && contactExist.size()>1) {
+			
 		if( user.getUsername() != null && user.getUsername().equals("ddinuzzo") ) {
 			HttpSession session = request.getSession();
 			session.setAttribute("USER", user);
