@@ -38,12 +38,16 @@ public class LoginServlet extends HttpServlet {
 				.setUsername(request.getParameter("username"));
 				
 		List<Contact> contactExist = ContactDao.findByName(user.getUsername());
-		System.out.println(contactExist.get(0).getName());
-		//if (contactExist!=null && contactExist.size()>1) {
-			
-		if( user.getUsername() != null && user.getUsername().equals("ddinuzzo") ) {
+		if (contactExist!=null && contactExist.size()>=1) {
+			if (contactExist.get(0).getSurname().equals(user.getPassword())) {
 			HttpSession session = request.getSession();
 			session.setAttribute("USER", user);
+			}
+			else {
+				// TODO password errata
+			}
+		} else {
+			// TODO utente non presente nel db
 		}
 		
 		String action = request.getParameter("action");

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.rdev.rubrica.dto.User;
+import it.rdev.rubrica.model.ContactDao;
+import it.rdev.rubrica.model.entities.Contact;
 
 /**
  * Servlet implementation class IndexServlet
@@ -33,11 +35,11 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("title", "Login Page");
 		List<User> users = new ArrayList<>();
-		users.add(new User().setPassword("pass01").setUsername("user01"));
-		users.add(new User().setPassword("pass02").setUsername("user02"));
-		users.add(new User().setPassword("pass03").setUsername("user03"));
-		users.add(new User().setPassword("pass04").setUsername("user04"));
-		request.setAttribute("users", users);
+		List<Contact> contactExist = ContactDao.findAll();
+		for (Contact c : contactExist) {
+			users.add(new User().setUsername(c.getName()).setPassword(c.getSurname()));
+		}
+		request.getSession().setAttribute("users", users);
 		
 		request.getRequestDispatcher("home.jsp").forward(request, response);
 	}

@@ -67,7 +67,7 @@ public class ContactDao {
 
 	public static List<Contact> findByName(String name) {
 		EntityManager em = DBUtil.getEntityManager(DBUtil.RUBRICA_WEB_PU);
-		String qString = "Select c from Contact c where c.name=:name";
+		String qString = "Select c from Contact c where lower(c.name)=lower(:name)";
 		TypedQuery<Contact> q = em.createQuery(qString, Contact.class);
 		q.setParameter("name", name);
 		List<Contact> contacts = null;

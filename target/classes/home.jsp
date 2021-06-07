@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
 <%@ page import="it.rdev.rubrica.dto.User" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -17,7 +17,7 @@
 	
 <%-- 	<%=user.getUsername()  + " " + user.getPassword() %> --%>
 	<%  
-		List<User> users = (List<User>) request.getAttribute("users");
+		List<User> users = (List<User>) request.getSession().getAttribute("users");
  	%>
 	<table>
 	<thead>
