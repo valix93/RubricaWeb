@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 public class EntityManagerUtils {
 
 	public static EntityManager apriConnessione() {
-		String nomeLogico= "RubricaWeb";
+		String nomeLogico= "RubricaWebMaven";
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(nomeLogico);
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		return entityManager;
