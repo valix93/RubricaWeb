@@ -46,6 +46,32 @@ public class ContactServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Contact> contactExist = ContactDao.findAll();
+		String action = request.getParameter("action");
+		String username = request.getParameter("username");
+		boolean checkExist = false;
+		Contact contact = null;
+	    if (action != null) {
+	    	for (Contact c : contactExist) {
+	    		if (c.getName().equals(username)) {
+	    			checkExist=true;
+	    			contact = c;
+	    			System.out.println(contact.getName() + " nome");
+	    		}
+    			break;
+	    	}
+	    	if (checkExist && contact!=null) {
+		    	if (action.equals("modifica")) {
+		    		// TODO modifica contatto selezionato
+		    		ContactDao.update(contact);
+		    	}
+		    	else if (action.equals("cancella")){ 
+		    		// TODO cancella contatto selezionato
+		    		ContactDao.delete(contact);
+		    	}
+	    	}
+	    }
+		
 		doGet(request, response);
 	}
 

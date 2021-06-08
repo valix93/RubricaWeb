@@ -18,6 +18,7 @@
 <%-- 	<%=user.getUsername()  + " " + user.getPassword() %> --%>
 	<%  
 		List<User> users = (List<User>) request.getSession().getAttribute("users");
+		User user = (User) request.getSession().getAttribute("USER");
  	%>
 	<table>
 	<thead>
@@ -28,6 +29,24 @@
 		<tr>
 			<td><c:out value="${u.username }"></c:out></td>
 			<td><c:out value="${u.password }"></c:out></td>
+	<%
+		if (user!=null){
+	%>
+			<td>
+				<form method="post" action="/RubricaWeb/ContactServlet?action=modifica">
+					<input type="hidden" name="username" value="${u.username}"/>
+					<button type="submit">modifica contatto</button>
+				</form>
+			</td>
+			<td>
+				<form method="post" action="/RubricaWeb/ContactServlet?action=cancella">
+					<input type="hidden" name="username" value="${u.username}"/>
+					<button type="submit">cancella contatto</button>
+				</form>
+			</td>
+	<% 
+		}
+	%>
 		</tr>
 	</c:forEach>
 	</tody>
