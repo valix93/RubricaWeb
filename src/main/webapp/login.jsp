@@ -40,7 +40,7 @@
   <body class="text-center">
     
 <main class="form-signin">
-	<form method="post" action="/RubricaWeb/LoginServlet">
+	<form method="post" action="/RubricaWebMaven/LoginServlet">
 	    <img class="mb-4" src="https://svgshare.com/i/Y0J.svg" alt="" width="72" height="57">
 	    <h1 class="h3 mb-3 fw-normal">RubricaWeb</h1>
 	

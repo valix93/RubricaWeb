@@ -162,6 +162,25 @@ $(document).ready(function(){
 </head>
 <body>
 <div class="container-lg">
+	<div class="row justify-content-end">
+		<div class="col-sm-4">
+		<% 				
+			String testo = "Effettua ";
+			String url = request.getContextPath()+"/";
+			if (user==null) { 
+				testo+="login";
+				url = "/login.jsp";
+			} 
+			else {
+				testo+="logout";
+				url = "LoginServlet?action=logout";
+			}
+		%>
+			
+	<!--  ${pageContext.request.contextPath}/login.jsp -->
+			<a href="<%=url%>" type="button" class="btn btn-info"><i class="fa fa-user-o"></i> <%=testo%></a>
+	     </div>
+     </div>
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
@@ -202,11 +221,11 @@ $(document).ready(function(){
       <a onclick="document.getElementById('form-cancella').submit();" class="delete" title="Cancella" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
     
 			<div style="display:none">
-				<form method="post" id="form-modifica" action="/RubricaWeb/ContactServlet?action=modifica">
+				<form method="post" id="form-modifica" action="/RubricaWebMaven/ContactServlet?action=modifica">
 					<input type="hidden" name="username" value="${u.username}"/>
 					<button type="submit">modifica contatto</button>
 				</form>
-				<form method="post" id="form-cancella" action="/RubricaWeb/ContactServlet?action=cancella">
+				<form method="post" id="form-cancella" action="/RubricaWebMaven/ContactServlet?action=cancella">
 					<input type="hidden" name="username" value="${u.username}"/>
 					<button type="submit">cancella contatto</button>
 				</form>
