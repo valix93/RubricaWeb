@@ -1,6 +1,7 @@
 package it.rdev.rubrica.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -35,7 +36,17 @@ public class LoginServlet extends HttpServlet {
 		User user = new User()
 				.setPassword(request.getParameter("password"))
 				.setUsername(request.getParameter("username"));
-				
+		List<User> users = new ArrayList<>();
+		List<Contact> contacts = ContactDao.findAllCriteria();
+
+		for (Contact c : contacts) {
+			boolean UserIntoList = (c.getName().equals(user.getUsername()) && c.getSurname().equals(user.getPassword()));
+			if (!UserIntoList) {
+				User u = new User().setUsername(c.getName()).setPassword(c.getSurname());
+				users.add(u);
+			}
+		}
+		request.setAttribute("users", users);
 		List<Contact> contactExist = ContactDao.findByName(user.getUsername());
 		if (contactExist!=null && contactExist.size()>=1) {
 			if (contactExist.get(0).getSurname().equals(user.getPassword())) {

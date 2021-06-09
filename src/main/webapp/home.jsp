@@ -4,7 +4,7 @@
 <%@ page import="it.rdev.rubrica.dto.User" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%  
-		List<User> users = (List<User>) request.getSession().getAttribute("users");
+		List<User> users = (List<User>) request.getAttribute("users");
 		User user = (User) request.getSession().getAttribute("USER");
 %>
 <!DOCTYPE html>
@@ -109,41 +109,6 @@ table.table td .add {
 $(document).ready(function(){
 	$('[data-toggle="tooltip"]').tooltip();
 	var actions = $("table td:last-child").html();
-	// Append table with add row form on add new button click
-    $(".add-new").click(function(){
-		$(this).attr("disabled", "disabled");
-		var index = $("table tbody tr:last-child").index();
-        var row = '<tr>' +
-            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="department" id="department"></td>' +
-            '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
-			'<td>' + actions + '</td>' +
-        '</tr>';
-    	$("table").append(row);		
-		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-	// Add row on add button click
-	$(document).on("click", ".add", function(){
-		var empty = false;
-		var input = $(this).parents("tr").find('input[type="text"]');
-        input.each(function(){
-			if(!$(this).val()){
-				$(this).addClass("error");
-				empty = true;
-			} else{
-                $(this).removeClass("error");
-            }
-		});
-		$(this).parents("tr").find(".error").first().focus();
-		if(!empty){
-			input.each(function(){
-				$(this).parent("td").html($(this).val());
-			});			
-			$(this).parents("tr").find(".add, .edit").toggle();
-			$(".add-new").removeAttr("disabled");
-		}		
-    });
 	// Edit row on edit button click
 	$(document).on("click", ".edit", function(){		
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
@@ -173,12 +138,12 @@ $(document).ready(function(){
 			} 
 			else {
 				testo+="logout";
-				url = "LoginServlet?action=logout";
+				url = "/LoginServlet?action=logout";
 			}
 		%>
 			
 	<!--  ${pageContext.request.contextPath}/login.jsp -->
-			<a href="<%=url%>" type="button" class="btn btn-info"><i class="fa fa-user-o"></i> <%=testo%></a>
+			<a href="${pageContext.request.contextPath}<%=url%>" type="button" class="btn btn-info"><i class="fa fa-user-o"></i> <%=testo%></a>
 	     </div>
      </div>
     <div class="table-responsive">
@@ -186,20 +151,26 @@ $(document).ready(function(){
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-8"><h2>Elenco <b>Contatti</b></h2></div>
-                    <div class="col-sm-4">
-                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Aggiungi contatto</button>
-                    </div>
+                <%
+					if (user!=null){
+				%>                    
+                    	<div class="col-sm-4">
+                    		<a href="${pageContext.request.contextPath}/secure/nuovocontatto.jsp" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>Aggiungi contatto</a>
+    	                </div>
+			    <% 
+					}
+			    %>    
                 </div>
             </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Password</th>
+                        <th>Nome</th>
+                        <th>Cognome</th>
  	<%
 		if (user!=null){
 	%>                    
-                        <th>Actions</th>
+                        <th style="width:22%"><p class="text-center">Actions</p></th>
     <% 
 		}
     %>    
@@ -216,7 +187,8 @@ $(document).ready(function(){
 	%>
 	
 	<td>
-      <a onclick="document.getElementById('form-dettagli').submit();" class="add" title="Dettagli" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+      <a onclick="document.getElementById('form-dettagli').submit();" class="info" title="Dettagli" data-toggle="tooltip"><i class="material-icons info">&#xe88e;</i>
+      </a>
       <a onclick="document.getElementById('form-modifica').submit();" class="edit" title="Modifica" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
       <a onclick="document.getElementById('form-cancella').submit();" class="delete" title="Cancella" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
     

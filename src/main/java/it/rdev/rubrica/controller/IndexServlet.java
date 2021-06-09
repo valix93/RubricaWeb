@@ -35,13 +35,14 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("title", "Login Page");
 		List<User> users = new ArrayList<>();
-		List<Contact> contactExist = ContactDao.findAll();
+		List<Contact> contactExist = ContactDao.findAllCriteria();
 		for (Contact c : contactExist) {
 			users.add(new User().setUsername(c.getName()).setPassword(c.getSurname()));
 		}
-		request.getSession().setAttribute("users", users);
+		request.setAttribute("users", users);
 		
 		request.getRequestDispatcher("home.jsp").forward(request, response);
+
 	}
 
 	/**
